@@ -1,0 +1,6 @@
+DROP TABLE IF EXISTS syndicate;
+
+CREATE TABLE syndicate (
+	id INTEGER PRIMARY KEY,
+	owner TEXT UNIQUE NOT NULL
+);
