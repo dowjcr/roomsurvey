@@ -36,18 +36,26 @@ def create_app(test_config = None):
     from . import db
     db.init_app(app)
 
+    from . import user
+    user.init_app(app)
+
     # Raven authentication
     # TODO: only allow students who are balloting to log in
     app.request_class = R
     auth_decorator = AuthDecorator(desc="Downing JCR Room Ballot Survey")
 
+    # Create the routes
+
+    from roomsurvey.syndicate import get_syndicate_for_user, get_syndicate_invitations, update_invitation
+    from roomsurvey.user import get_user
+
     @app.before_request
     def before_request_handler():
         g.crsid = auth_decorator.principal
 
-    # Create the routes
-
-    from roomsurvey.syndicate import get_syndicate_for_user, get_syndicate_invitations, update_invitation
+        if g.crsid and flask.request.path != "/logout" and not flask.request.path.startswith("/static"):
+            if not get_user(g.crsid):
+                return render_template("unauthorised.html")
 
     @app.route("/dashboard")
     @auth_decorator

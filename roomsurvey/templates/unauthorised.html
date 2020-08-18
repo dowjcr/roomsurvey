@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}Unauthorised{% endblock %}
+
+{% block head %}
+<style>
+html,
+body {
+  height: 100%;
+}
+
+body {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+  align-items: center;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  background-color: #f5f5f5;
+}
+
+.form-signin {
+  width: 100%;
+  max-width: 500px;
+  padding: 15px;
+  margin: auto;
+}
+
+p.text-muted {
+	margin-top: 1rem !important;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<body class="text-center">
+	<div class="form-signin">
+		<img class="mb-4" src="{{ url_for('static', filename='dowjcrpurple.png') }}" width=72 alt="Downing JCR Logo" />
+		<h1 class="h3 mb-3 font-weight-normal">Sorry, there was a problem.</h1>
+		<p class="mt-5 mb-3 text-muted">The user <strong>{{ g.crsid }}</strong> is not on the list of students in the ballot. Please contact internet&#64;jcr.dow.cam.ac.uk if you believe this is a mistake.</p>
+		<form action="/logout" method="POST"><button type="submit" class="btn btn-primary">Log out</button></form>
+	</div>
+</body>
+{% endblock %}

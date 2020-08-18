@@ -1,14 +1,34 @@
+import click
+from flask.cli import with_appcontext
+
 from roomsurvey.db import get_db
 
-def create_user_record(crsid):
-    # Creates a row in the database for this user IF they don't currently have one
-
+def get_user(crsid):
+    # returns true if user exists, else false
+    
     db = get_db()
 
-    row = db.execute('SELECT crsid FROM user WHERE crsid=?', (crsid,)).fetchone()
+    user_data = db.execute("SELECT crsid FROM user WHERE crsid=?", (crsid,)).fetchone()
 
-    if row is not None:
-        return
+    if user_data:
+        return True
 
-    db.execute('INSERT INTO user (crsid) VALUES (?)', (crsid,))
-    db.commit()
+    return False
+
+@click.command("import-users")
+@with_appcontext
+def import_users_command():
+    db = get_db()
+    f = open("crsids.txt", "r")
+
+    count = 0
+
+    for crsid in f:
+        db.execute("INSERT INTO user (crsid) VALUES (?)", (crsid.strip(),))
+        db.commit()
+        count += 1
+
+    print("Imported", str(count), "users")
+
+def init_app(app):
+    app.cli.add_command(import_users_command)

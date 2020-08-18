@@ -1,5 +1,4 @@
 from roomsurvey.db import get_db
-from roomsurvey.user import create_user_record
 
 def get_syndicate_for_user(crsid):
     db = get_db()
@@ -47,8 +46,6 @@ def update_invitation(crsid, accepted):
     # Assuming that there can only be one invitation at a time
 
     db = get_db()
-
-    create_user_record(crsid)
 
     invite = get_syndicate_invitations(crsid)[0]
     syndicate = get_syndicate_for_user(crsid)
