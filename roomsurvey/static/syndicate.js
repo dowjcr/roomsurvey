@@ -33,13 +33,62 @@ function updateUserList() {
 function addUser() {
     var crsidInput = document.getElementById("crsid");
     var crsid = crsidInput.value;
-    crsidInput.value = "";
 
-    // TODO: some soft validation here
+	var feedback = document.getElementById("invalid-feedback");
 
-    invitees.push(crsid);
+	// Validate the input
 
-    updateUserList();
+	function resetInput() {
+		crsidInput.removeAttribute("disabled");
+		crsidInput.value = "";
+		crsidInput.classList.remove("is-invalid");
+		feedback.innerHTML = "";
+	}
+
+	if (invitees.includes(crsid)) {
+		resetInput();
+		crsidInput.classList.add("is-invalid");
+		feedback.innerHTML = "You have already added this person.";
+		return;
+	}
+
+	if (invitees.length == 8) {
+		resetInput();
+		crsidInput.classList.add("is-invalid");
+		feedback.innerHTML = "The maximum syndicate size is 8";
+		return;
+	}
+	
+	crsidInput.setAttribute("disabled", "true");
+	crsidInput.value = "Please wait...";
+
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+
+		if (this.readyState == 4 && this.status == 200) {
+			var resp = JSON.parse(xhttp.responseText);
+
+			resetInput();
+
+			if (resp["ok"]) {
+				invitees.push(crsid);
+				updateUserList();
+				return;
+			}
+
+			crsidInput.classList.add("is-invalid");
+			feedback.innerHTML = resp["reason"];
+		} else if (this.readyState == 4) {
+			// The request has finished but was not successful
+			// just allow it anyway, the _real_ validation is server-side
+			console.log("WARN: request failed");
+			resetInput();
+		}
+
+	};
+
+	xhttp.open("GET", "/api/is_syndicatable/"+crsid, true);
+	xhttp.send();
 }
 
 function showFinalCheck() {
@@ -62,7 +111,8 @@ function restorePage() {
 }
 
 function submit() {
-    alert("ok");
+	document.getElementById("invitees").value = JSON.stringify(invitees);
+	document.getElementById("syndicate-form").submit();
 }
 
 clearUsers();

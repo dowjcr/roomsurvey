@@ -16,14 +16,19 @@
 
 	<label for="crsid">Person to invite:</label>
 	<input type="text" class="form-control" id="crsid" placeholder="Enter CRSid..." />
+	<div class="invalid-feedback" id="invalid-feedback"></div>
 	<button class="btn btn-primary" onclick="addUser()">Add</button>
 	<button class="btn btn-danger" onclick="clearUsers()">Clear list</button>
 	<br /><br />
 	<p><strong>Syndicate members:</strong> <span id="userlist"></span></p>
 	<button class="btn btn-success" onclick="showFinalCheck()">Create syndicate!</button>
-
-	<input type="hidden" id="mycrsid" value="{{ g.crsid }}" />
 </div>
+
+<input type="hidden" id="mycrsid" value="{{ g.crsid }}" />
+
+<form action="/syndicate/create" method="POST" id="syndicate-form">
+	<input type="hidden" id="invitees" name="invitees-json" />
+</form>
 
 <script type="text/javascript" src="{{ url_for("static", filename="syndicate.js") }}"></script>
 

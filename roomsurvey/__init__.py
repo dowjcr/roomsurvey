@@ -1,7 +1,8 @@
 import flask
-from flask import Flask, render_template, session, redirect, g
+from flask import Flask, render_template, session, redirect, g, request
 import os
 from ucam_webauth.raven.flask_glue import AuthDecorator
+import json
 
 from roomsurvey.log import log
 
@@ -46,14 +47,14 @@ def create_app(test_config = None):
 
     # Create the routes
 
-    from roomsurvey.syndicate import get_syndicate_for_user, get_syndicate_invitations, update_invitation
-    from roomsurvey.user import get_user
+    from roomsurvey.syndicate import get_syndicate_for_user, get_syndicate_invitations, update_invitation, create_syndicate
+    from roomsurvey.user import get_user, is_syndicatable
 
     @app.before_request
     def before_request_handler():
         g.crsid = auth_decorator.principal
 
-        if g.crsid and flask.request.path != "/logout" and not flask.request.path.startswith("/static"):
+        if g.crsid and request.path != "/logout" and not request.path.startswith("/static"):
             if not get_user(g.crsid):
                 return render_template("unauthorised.html")
 
@@ -66,6 +67,29 @@ def create_app(test_config = None):
     @auth_decorator
     def syndicate():
         return render_template("syndicate.html", syndicate=get_syndicate_for_user(g.crsid))
+
+    @app.route("/syndicate/create", methods=["POST"])
+    @auth_decorator
+    def syndicate_create():
+        invitees = json.loads(request.form['invitees-json'])
+
+        for i in invitees:
+            resp = is_syndicatable(i)
+            if not resp["ok"]:
+                raise Exception(resp["reason"])
+
+        if len(invitees) > 8 or len(invitees) < 0:
+            raise Exception("Bad syndicate length")
+        
+        if len(set(invitees)) != len(invitees):
+            raise Exception("Duplicates")
+
+        if g.crsid not in invitees:
+            raise Exception("Must invite self")
+
+        log(g.crsid, "created syndicate and invited " + ",".join(invitees))
+        create_syndicate(g.crsid, invitees)
+        return redirect("/dashboard", 302)
 
     @app.route("/invite")
     @auth_decorator
@@ -85,6 +109,12 @@ def create_app(test_config = None):
         log(g.crsid, "has rejected a syndicate invitation")
         update_invitation(g.crsid, False)
         return redirect("/dashboard", 302)
+
+    @app.route("/api/is_syndicatable/<crsid>")
+    @auth_decorator
+    def api_is_syndicatable(crsid):
+        resp = is_syndicatable(crsid)
+        return json.dumps(resp)
 
     @app.route("/")
     def landing():

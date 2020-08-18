@@ -1,4 +1,5 @@
 from roomsurvey.db import get_db
+from roomsurvey.mail import syndicate_mail
 
 def get_syndicate_for_user(crsid):
     db = get_db()
@@ -15,7 +16,7 @@ def get_syndicate_for_user(crsid):
     syndicate_data = db.execute('SELECT * FROM syndicate WHERE id=?', (syndicate_id[0],)).fetchone()
     syndicate["owner"] = syndicate_data["owner"]
 
-    syndicate_others = db.execute('SELECT crsid FROM user WHERE syndicate=?', (syndicate_id[0],)).fetchall()
+    syndicate_others = db.execute('SELECT crsid FROM user WHERE syndicate=? AND crsid<>?', (syndicate_id[0], syndicate["owner"])).fetchall()
     syndicate["others"] = syndicate_others
 
     syndicate_invited = db.execute('SELECT recipient FROM syndicate_invitation WHERE used=0 AND syndicate=?', (syndicate_id[0],)).fetchall()
@@ -57,3 +58,22 @@ def update_invitation(crsid, accepted):
         db.execute('UPDATE user SET syndicate=? WHERE crsid=?', (invite["syndicate"], crsid))
     db.execute('UPDATE syndicate_invitation SET used=1 WHERE id=?', (invite["id"],))
     db.commit()
+
+def create_syndicate(owner_crsid, invitees):
+
+    # NB `db` is a cursor here, so we can use `lastrowid`
+    dbh = get_db()
+    db = dbh.cursor()
+
+    invitees.remove(owner_crsid)
+
+    db.execute("INSERT INTO syndicate (owner) VALUES (?)", (owner_crsid,))
+    syndicate_id = db.lastrowid
+
+    db.execute("UPDATE user SET syndicate=? WHERE crsid=?", (syndicate_id, owner_crsid))
+
+    for invitee in invitees:
+        db.execute("INSERT INTO syndicate_invitation (syndicate, recipient) VALUES (?, ?)", (syndicate_id, invitee))
+        syndicate_mail(owner_crsid, invitee)
+
+    dbh.commit()
