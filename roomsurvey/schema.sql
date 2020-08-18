@@ -4,3 +4,19 @@ CREATE TABLE syndicate (
 	id INTEGER PRIMARY KEY,
 	owner TEXT UNIQUE NOT NULL
 );
+
+DROP TABLE IF EXISTS user;
+
+CREATE TABLE user (
+	crsid TEXT UNIQUE PRIMARY KEY,
+	syndicate INTEGER DEFAULT NULL
+);
+
+DROP TABLE IF EXISTS syndicate_invitation;
+
+CREATE TABLE syndicate_invitation (
+	id INTEGER PRIMARY KEY,
+	syndicate INTEGER NOT NULL,
+	recipient TEXT NOT NULL,
+	used INTEGER DEFAULT 0
+);

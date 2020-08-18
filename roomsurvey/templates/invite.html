@@ -1,0 +1,31 @@
+{% extends 'base_authenticated.html' %}
+
+{% block title %}Invitation{% endblock %}
+
+{% block pagecontent %}
+
+{# This template only shows a _single_ invite, assuming that multiple-invitation is not allowed #}
+
+{% if invites|length != 1 %}
+You don't appear to have been invited to a syndicate, sorry!
+{% else %}
+
+<div class="smallcontainer">
+	<h1>Syndicate invitation</h1>
+	<p>The user <strong>{{ invites[0].owner }}</strong> has invited you to join their syndicate. The other (invited) members of the syndicate are as follows:</p>
+	<ul>
+	{% for member in invites[0].other_invites %}
+		<li>{{ member.recipient }}</li>
+	{% endfor %}
+	</ul>
+	<form action="/invite/accept" method="POST" style="display:inline-block">
+		<button type="submit" class="btn btn-success">Accept invitation</button>
+	</form>
+	<form action="/invite/reject" method="POST" style="display:inline-block">
+		<button type="submit" class="btn btn-danger" onclick="confirm('You are about to reject your invitation to this syndicate. Are you ABSOLUTELY SURE that you want to do this?')">Reject invitation</button>
+	</form>
+</div>
+
+{% endif %}
+
+{% endblock %}

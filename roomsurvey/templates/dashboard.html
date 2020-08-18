@@ -1,0 +1,42 @@
+{% extends 'base_authenticated.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block pagecontent %}
+<div class="jumbotron dashboard">
+	<h1 class="display-4">Dashboard</h1>
+	<div class="row">
+		<div class="col col-md-6"><div class="dashboard-item">
+			<h2>Your syndicate</h2>
+
+			{% if not syndicate %}
+
+			<p>You have not formed a syndicate yet.</p>
+
+			<a class="btn btn-outline-secondary" href="/syndicate">Create a syndicate &raquo;</a>
+
+			{% if invites|length > 0 %}
+			<p>You have been invited to join a syndicate.</p>
+			<a class="btn btn-outline-primary" href="/invite">View invitation</a>
+			{% endif %}
+
+			{% else %}
+
+			<p>You have {% if g.crsid == syndicate.owner %}formed{% else %}joined{% endif %} a syndicate. The syndicate currently has <strong>{{ syndicate.others|length }}</strong> member(s){% if syndicate.invited|length > 0 %}, and a further <strong>{{ syndicate.invited|length }}</strong> people have been invited to join.{% else %}.{% endif %}</p>
+
+			{% if syndicate.complete %}
+			<p><strong>Your syndicate is complete; you're good to go.</strong></p>
+			{% endif %}
+
+			<a class="btn btn-outline-secondary" href="/syndicate">View syndicate &raquo;</a>
+
+			{% endif %}
+		</div></div>
+
+		<div class="col col-md-6"><div class="dashboard-item">
+			<h2>Room survey</h2>
+			<p>The room survey will be available shortly.</p>
+		</div></div>
+	</div>
+</div>
+{% endblock %}

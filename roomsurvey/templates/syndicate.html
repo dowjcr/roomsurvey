@@ -1,0 +1,28 @@
+{% extends 'base_authenticated.html' %}
+
+{% block title %}Your syndicate{% endblock %}
+
+{% block pagecontent %}
+
+{% if not syndicate %}
+You don't appear to be part of a syndicate (yet...)
+{% else %}
+
+<div class="smallcontainer">
+	<h1>Your syndicate</h1>
+	<p>Your syndicate contains the following members:</p>
+	<ul>
+		<li>{{ syndicate.owner }} (founder)</li>
+		{% for user in syndicate.others %}
+		<li>{{ user.crsid }}</li>
+		{% endfor %}
+		{% for invite in syndicate.invited %}
+		<li>{{ invite.recipient }} (invited, but has not yet accepted their invitation)</li>
+		{% endfor %}
+	</ul>
+	<p>If these arrangements do not seem correct, please contact the JCR Internet Officer (internet@jcr.dow.cam.ac.uk) as soon as possible!</p>
+</div>
+
+{% endif %}
+
+{% endblock %}
