@@ -6,21 +6,13 @@ import json
 
 from roomsurvey.log import log
 
-# Request class boilerplate adapted from python-ucam-webauth
-# documentation, required so that we can make a hostname
-# whitelist
-
-class R(flask.Request):
-    trusted_hosts = {"localhost", "192.168.1.245"} # TODO
-
 def create_app(test_config = None):
 
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
-        #SECRET_KEY = os.urandom(16), # TODO: maybe store a persistent key
-        SECRET_KEY = "development1337", # TODO REALLY IMPORTANT CHANGE THIS
         DATABASE=os.path.join(app.instance_path, 'db.sqlite'),
     )
+    app.config.from_pyfile("config.py")
 
     if test_config is None:
         app.config.from_pyfile("config.py", silent=True)
@@ -44,6 +36,14 @@ def create_app(test_config = None):
     user.init_app(app)
 
     # Raven authentication
+
+    # Request class boilerplate adapted from python-ucam-webauth
+    # documentation, required so that we can make a hostname
+    # whitelist
+
+    class R(flask.Request):
+        trusted_hosts = app.config["TRUSTED_HOSTS"]
+
     app.request_class = R
     auth_decorator = AuthDecorator(desc="Downing JCR Room Ballot Survey")
 
