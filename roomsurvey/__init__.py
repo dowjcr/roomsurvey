@@ -33,6 +33,10 @@ def create_app(test_config = None):
     except OSError:
         pass
 
+    from flask_wtf.csrf import CSRFProtect
+    csrf = CSRFProtect()
+    csrf.init_app(app)
+
     from . import db
     db.init_app(app)
 

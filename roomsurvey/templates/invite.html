@@ -19,9 +19,11 @@ You don't appear to have been invited to a syndicate, sorry!
 	{% endfor %}
 	</ul>
 	<form action="/invite/accept" method="POST" style="display:inline-block">
+		<input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
 		<button type="submit" class="btn btn-success">Accept invitation</button>
 	</form>
 	<form action="/invite/reject" method="POST" style="display:inline-block" onsubmit="return confirm('You are about to reject your invitation to this syndicate. Are you ABSOLUTELY SURE that you want to do this?')">
+		<input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
 		<button type="submit" class="btn btn-danger">Reject invitation</button>
 	</form>
 </div>

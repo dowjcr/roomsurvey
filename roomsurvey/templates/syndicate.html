@@ -27,6 +27,7 @@
 <input type="hidden" id="mycrsid" value="{{ g.crsid }}" />
 
 <form action="/syndicate/create" method="POST" id="syndicate-form">
+	<input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
 	<input type="hidden" id="invitees" name="invitees-json" />
 </form>
 
