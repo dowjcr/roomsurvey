@@ -19,6 +19,7 @@ main > .container {
 	border: 1px solid #999;
 	border-radius: 10px;
 	padding: 15px;
+	margin-bottom: 1rem;
 }
 .dashboard-item p:last-child, .dashboard-item .btn:last-child {
 	margin-bottom: 0;
@@ -48,10 +49,13 @@ main > .container {
 					<a class="nav-link" href="/dashboard">Dashboard</a>
 				</li>
 				<li class="nav-item">
+					<a class="nav-link" href="/syndicate">Syndicate</a>
+				</li>
+				<li class="nav-item">
 					<a class="nav-link" href="/about">About</a>
 				</li>
 			</ul>
-			<span class="mt-2 mt-md-0 text-white text-muted" style="margin-right: 1rem">Logged in as {{ g.crsid }}</span>
+			<span class="mt-2 mt-md-0 text-white text-muted nav-item" style="margin-right: 1rem">Logged in as {{ g.crsid }}</span>
 			<form action="/logout" method="POST" class="form-inline">
 				<button type="submit" class="btn my-2 my-sm-0 btn-outline-secondary">Log out</button>
 			</form>

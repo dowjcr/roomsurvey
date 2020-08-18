@@ -8,7 +8,7 @@ from ucam_webauth.raven.flask_glue import AuthDecorator
 # whitelist
 
 class R(flask.Request):
-    trusted_hosts = {"localhost"} # TODO
+    trusted_hosts = {"localhost", "192.168.1.245"} # TODO
 
 # TODO: some kind of logging
 

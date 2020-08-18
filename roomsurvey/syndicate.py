@@ -47,6 +47,7 @@ def update_invitation(crsid, accepted):
     # Assuming that there can only be one invitation at a time
 
     db = get_db()
+
     create_user_record(crsid)
 
     invite = get_syndicate_invitations(crsid)[0]

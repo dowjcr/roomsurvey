@@ -6,7 +6,7 @@
 <div class="jumbotron dashboard">
 	<h1 class="display-4">Dashboard</h1>
 	<div class="row">
-		<div class="col col-md-6"><div class="dashboard-item">
+		<div class="col-md-6"><div class="dashboard-item">
 			<h2>Your syndicate</h2>
 
 			{% if not syndicate %}
@@ -22,7 +22,7 @@
 
 			{% else %}
 
-			<p>You have {% if g.crsid == syndicate.owner %}formed{% else %}joined{% endif %} a syndicate. The syndicate currently has <strong>{{ syndicate.others|length }}</strong> member(s){% if syndicate.invited|length > 0 %}, and a further <strong>{{ syndicate.invited|length }}</strong> people have been invited to join.{% else %}.{% endif %}</p>
+			<p>You have {% if g.crsid == syndicate.owner %}formed{% else %}joined{% endif %} a syndicate. The syndicate currently has <strong>{{ syndicate.others|length + 1 }}</strong> member(s){% if syndicate.invited|length > 0 %}, and a further <strong>{{ syndicate.invited|length }}</strong> people have been invited to join.{% else %}.{% endif %}</p>
 
 			{% if syndicate.complete %}
 			<p><strong>Your syndicate is complete; you're good to go.</strong></p>
@@ -33,9 +33,20 @@
 			{% endif %}
 		</div></div>
 
-		<div class="col col-md-6"><div class="dashboard-item">
+		<div class="col-md-6"><div class="dashboard-item">
 			<h2>Room survey</h2>
 			<p>The room survey will be available shortly.</p>
+		</div></div>
+	</div>
+	
+	<div class="row">
+		<div class="col-md-6"><div class="dashboard-item">
+			<h2>Info &amp; FAQ</h2>
+			<p>Information about the ballot system (and why we have to do this in the first place) can be found on <a href="https://www.notion.so/Downing-JCR-Room-Ballot-2020-cbee08722bb94d9aa7824d84087276e5">Matt Moore's FAQ page</a>.</p>
+		</div></div>
+		<div class="col-md-6"><div class="dashboard-item">
+			<h2>Help</h2>
+			<p>If you encounter any issues using this website or have questions about the ballot in general, please feel free to contact the JCR Internet Officer. (<a href="mailto:internet@jcr.dow.cam.ac.uk">internet@jcr.dow.cam.ac.uk</a>)</p>
 		</div></div>
 	</div>
 </div>

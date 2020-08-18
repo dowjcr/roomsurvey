@@ -21,8 +21,8 @@ You don't appear to have been invited to a syndicate, sorry!
 	<form action="/invite/accept" method="POST" style="display:inline-block">
 		<button type="submit" class="btn btn-success">Accept invitation</button>
 	</form>
-	<form action="/invite/reject" method="POST" style="display:inline-block">
-		<button type="submit" class="btn btn-danger" onclick="confirm('You are about to reject your invitation to this syndicate. Are you ABSOLUTELY SURE that you want to do this?')">Reject invitation</button>
+	<form action="/invite/reject" method="POST" style="display:inline-block" onsubmit="return confirm('You are about to reject your invitation to this syndicate. Are you ABSOLUTELY SURE that you want to do this?')">
+		<button type="submit" class="btn btn-danger">Reject invitation</button>
 	</form>
 </div>
 
