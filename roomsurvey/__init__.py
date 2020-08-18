@@ -3,14 +3,14 @@ from flask import Flask, render_template, session, redirect, g
 import os
 from ucam_webauth.raven.flask_glue import AuthDecorator
 
+from roomsurvey.log import log
+
 # Request class boilerplate adapted from python-ucam-webauth
 # documentation, required so that we can make a hostname
 # whitelist
 
 class R(flask.Request):
     trusted_hosts = {"localhost", "192.168.1.245"} # TODO
-
-# TODO: some kind of logging
 
 def create_app(test_config = None):
     # Boilerplate factory function adapted from Flask docs
@@ -67,12 +67,14 @@ def create_app(test_config = None):
     @app.route("/invite/accept", methods=["POST"])
     @auth_decorator
     def invite_accept():
+        log(g.crsid, "has accepted a syndicate invitation")
         update_invitation(g.crsid, True)
         return redirect("/dashboard", 302)
 
     @app.route("/invite/reject", methods=["POST"])
     @auth_decorator
     def invite_reject():
+        log(g.crsid, "has rejected a syndicate invitation")
         update_invitation(g.crsid, False)
         return redirect("/dashboard", 302)
 

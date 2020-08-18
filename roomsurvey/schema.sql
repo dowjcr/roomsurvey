@@ -1,3 +1,12 @@
+DROP TABLE IF EXISTS meta;
+
+CREATE TABLE meta (
+	key TEXT UNIQUE PRIMARY KEY,
+	value TEXT
+);
+
+INSERT INTO meta (key, value) VALUES ("version", "001");
+
 DROP TABLE IF EXISTS syndicate;
 
 CREATE TABLE syndicate (
@@ -19,4 +28,12 @@ CREATE TABLE syndicate_invitation (
 	syndicate INTEGER NOT NULL,
 	recipient TEXT NOT NULL,
 	used INTEGER DEFAULT 0
+);
+
+DROP TABLE IF EXISTS log_message;
+
+CREATE TABLE log_message (
+	id INTEGER PRIMARY KEY,
+	user TEXT NOT NULL,
+	message TEXT NOT NULL
 );
