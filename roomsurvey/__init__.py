@@ -14,7 +14,6 @@ class R(flask.Request):
     trusted_hosts = {"localhost", "192.168.1.245"} # TODO
 
 def create_app(test_config = None):
-    # Boilerplate factory function adapted from Flask docs
 
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
@@ -41,7 +40,6 @@ def create_app(test_config = None):
     user.init_app(app)
 
     # Raven authentication
-    # TODO: only allow students who are balloting to log in
     app.request_class = R
     auth_decorator = AuthDecorator(desc="Downing JCR Room Ballot Survey")
 
