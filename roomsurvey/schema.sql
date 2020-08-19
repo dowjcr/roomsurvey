@@ -37,6 +37,7 @@ DROP TABLE IF EXISTS log_message;
 CREATE TABLE log_message (
 	id INTEGER PRIMARY KEY,
 	user TEXT NOT NULL,
+	time INTEGER NOT NULL,
 	message TEXT NOT NULL
 );
 
