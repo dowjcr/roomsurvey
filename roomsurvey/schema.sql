@@ -20,7 +20,8 @@ DROP TABLE IF EXISTS user;
 CREATE TABLE user (
 	crsid TEXT UNIQUE PRIMARY KEY,
 	syndicate INTEGER DEFAULT NULL,
-	formtoken TEXT NOT NULL
+	formtoken TEXT NOT NULL,
+	has_filled INTEGER NOT NULL DEFAULT 0
 );
 
 DROP TABLE IF EXISTS syndicate_invitation;

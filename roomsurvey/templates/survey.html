@@ -1,0 +1,27 @@
+{% extends 'base_authenticated.html' %}
+
+{% block title %}Room survey{% endblock %}
+
+{% block pagecontent %}
+
+{% if survey_data.has_filled == 1 %}
+
+<p>According to our records, you have already filled out the survey. Thank you for your enthusiasm, but once is enough.</p>
+<p>If you wish to change your responses, please <a href="/about">contact the JCR Internet Officer</a>.</p>
+
+{% else %}
+
+<noscript>Unfortunately JavaScript is required in order to fill out the room survey. This includes some scripts under non-free licenses. Please enable JavaScript in your browser in order to continue.<br /><br />If you do not wish to enable JS in order to use the survey, please feel free to <a href="/about">contact the JCR Internet Officer</a> who will make alternative arrangements.</noscript>
+
+<input type="hidden" id="mycrsid" value="{{ g.crsid }}" />
+<input type="hidden" id="myformtoken" value="{{ survey_data.formtoken }}" />
+
+<iframe src="{{ config.COGNITOFORMS_URL }}"
+	style="position:relative;width:1px;min-width:100%;*width:100%;" frameborder="0" scrolling="yes"
+	seamless="seamless" height="2010" width="100%"></iframe>
+<script type="text/javascript" src="https://www.cognitoforms.com/scripts/embed.js"></script>
+<script type="text/javascript" src="{{ url_for("static", filename="survey.js") }}"></script>
+
+{% endif %}
+
+{% endblock %}

@@ -51,6 +51,7 @@ def create_app(test_config = None):
 
     from roomsurvey.syndicate import get_syndicate_for_user, get_syndicate_invitations, update_invitation, create_syndicate
     from roomsurvey.user import get_user, is_syndicatable
+    from roomsurvey.survey import get_survey_data
 
     @app.before_request
     def before_request_handler():
@@ -63,7 +64,7 @@ def create_app(test_config = None):
     @app.route("/dashboard")
     @auth_decorator
     def dashboard():
-        return render_template("dashboard.html", syndicate=get_syndicate_for_user(g.crsid), invites=get_syndicate_invitations(g.crsid))
+        return render_template("dashboard.html", syndicate=get_syndicate_for_user(g.crsid), invites=get_syndicate_invitations(g.crsid), survey_data=get_survey_data(g.crsid))
 
     @app.route("/syndicate")
     @auth_decorator
@@ -120,6 +121,11 @@ def create_app(test_config = None):
     def api_is_syndicatable(crsid):
         resp = is_syndicatable(crsid)
         return json.dumps(resp)
+
+    @app.route("/survey")
+    @auth_decorator
+    def survey():
+        return render_template("survey.html", survey_data=get_survey_data(g.crsid))
 
     @app.route("/")
     def landing():

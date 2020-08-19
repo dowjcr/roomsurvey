@@ -3,8 +3,15 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block pagecontent %}
+
 <div class="jumbotron dashboard">
 	<h1 class="display-4">Dashboard</h1>
+
+{% if syndicate.complete and survey_data.has_filled == 1 %}
+<div class="alert alert-success" role="alert">
+	Your syndicate is complete and you have filled in the room preferences survey. Thanks! We'll be in touch soon with the details of your room.
+</div>
+{% endif %}
 	<div class="row">
 		<div class="col-md-6"><div class="dashboard-item">
 			<h2>Your syndicate</h2>
@@ -35,14 +42,19 @@
 
 		<div class="col-md-6"><div class="dashboard-item">
 			<h2>Room survey</h2>
-			<p>The room survey will be available shortly.</p>
+			{% if survey_data.has_filled == 1 %}
+			<p>You have already filled in the room preferences survey. Thanks!</p>
+			{% else %}
+			<p>Please fill in a short survey describing your preferences in a room. This allows us to match you with the best room possible.</p>
+			<a class="btn btn-outline-secondary" href="/survey">Fill in survey &raquo;</a>
+			{% endif %}
 		</div></div>
 	</div>
 	
 	<div class="row">
 		<div class="col-md-6"><div class="dashboard-item">
 			<h2>Info &amp; FAQ</h2>
-			<p>Information about the ballot system (and why we have to do this in the first place) can be found on <a target="_blank" href="https://www.notion.so/Downing-JCR-Room-Ballot-2020-cbee08722bb94d9aa7824d84087276e5">Matt Moore's FAQ page</a>.</p>
+			<p>Information about the ballot system (and why we have to do this in the first place) can be found on the <a target="_blank" href="https://www.notion.so/Downing-JCR-Room-Ballot-2020-cbee08722bb94d9aa7824d84087276e5">FAQ page</a>.</p>
 		</div></div>
 		<div class="col-md-6"><div class="dashboard-item">
 			<h2>Help</h2>
