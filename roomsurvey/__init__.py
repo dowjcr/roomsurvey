@@ -90,7 +90,10 @@ def create_app(test_config = None):
             raise Exception("Must invite self")
 
         log(g.crsid, "created syndicate and invited " + ",".join(invitees))
-        create_syndicate(g.crsid, invitees)
+        if request.form["want-to-stay"] == "yes":
+            log(g.crsid, "said their syndicate wants to stay")
+
+        create_syndicate(g.crsid, invitees, request.form["want-to-stay"])
         return redirect("/dashboard", 302)
 
     @app.route("/invite")

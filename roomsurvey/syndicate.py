@@ -59,7 +59,7 @@ def update_invitation(crsid, accepted):
     db.execute('UPDATE syndicate_invitation SET used=1 WHERE id=?', (invite["id"],))
     db.commit()
 
-def create_syndicate(owner_crsid, invitees):
+def create_syndicate(owner_crsid, invitees, want_to_stay):
 
     # NB `db` is a cursor here, so we can use `lastrowid`
     dbh = get_db()
@@ -67,7 +67,7 @@ def create_syndicate(owner_crsid, invitees):
 
     invitees.remove(owner_crsid)
 
-    db.execute("INSERT INTO syndicate (owner) VALUES (?)", (owner_crsid,))
+    db.execute("INSERT INTO syndicate (owner, want_to_stay) VALUES (?, ?)", (owner_crsid, 1 if want_to_stay == "yes" else 0))
     syndicate_id = db.lastrowid
 
     db.execute("UPDATE user SET syndicate=? WHERE crsid=?", (syndicate_id, owner_crsid))

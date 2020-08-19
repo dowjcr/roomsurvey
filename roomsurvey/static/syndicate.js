@@ -101,7 +101,7 @@ function showFinalCheck() {
         html = html.concat("<li>" + htmlEncode(invitee) + "</li>");
     });
 
-    html = html.concat('</ul><button class="btn btn-primary" onclick="submit()">Yes, create it.</button> <button class="btn btn-secondary" onclick="restorePage()">No, take me back!</button>')
+    html = html.concat('</ul><div class="form-check"><input class="form-check-input" id="want-to-stay-input" type="checkbox" /><label class="form-check-label" for="want-to-stay-input">Please tick this box if your syndicate hope to stay in their current rooms.</label></div><br /><button class="btn btn-primary" onclick="submit()">Yes, create it.</button> <button class="btn btn-secondary" onclick="restorePage()">No, take me back!</button>')
 
     contentControl.innerHTML = html;
 }
@@ -112,6 +112,10 @@ function restorePage() {
 
 function submit() {
 	document.getElementById("invitees").value = JSON.stringify(invitees);
+	
+	var wantToStay = document.getElementById("want-to-stay-input").checked;
+	document.getElementById("want-to-stay").value = wantToStay ? "yes" : "no";
+
 	document.getElementById("syndicate-form").submit();
 }
 

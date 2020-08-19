@@ -29,6 +29,7 @@
 <form action="/syndicate/create" method="POST" id="syndicate-form">
 	<input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
 	<input type="hidden" id="invitees" name="invitees-json" />
+	<input type="hidden" id="want-to-stay" name="want-to-stay" />
 </form>
 
 <script type="text/javascript" src="{{ url_for("static", filename="syndicate.js") }}"></script>
