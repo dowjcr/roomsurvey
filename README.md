@@ -18,6 +18,7 @@ $ . venv/bin/activate
   * [Flask](https://flask.palletsprojects.com/en/1.1.x/)
   * [python-ucam-webauth](https://python-ucam-webauth.readthedocs.io/en/latest/index.html)
   * [Bootstrap](https://getbootstrap.com)
+  * [SQLite](https://sqlite.org)
 
 ## Author
 
