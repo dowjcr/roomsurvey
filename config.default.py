@@ -8,3 +8,7 @@ TRUSTED_HOSTS = {"ballot.downingjcr.co.uk"}
 
 # URL to the embedded CognitoForms page
 COGNITOFORMS_URL = "https://www.cognitoforms.com/f/your_form"
+
+# Key to be sent by CognitoForms along with the form data
+# change it and keep it secret!!
+COGNITOFORMS_KEY = "development1337"

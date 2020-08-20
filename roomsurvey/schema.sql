@@ -50,3 +50,11 @@ CREATE TABLE mail_queue (
 	subject TEXT NOT NULL,
 	body TEXT NOT NULL
 );
+
+DROP TABLE IF EXISTS form_payload;
+
+CREATE TABLE form_payload (
+	id INTEGER PRIMARY KEY,
+	time INTEGER NOT NULL,
+	json TEXT NOT NULL
+);

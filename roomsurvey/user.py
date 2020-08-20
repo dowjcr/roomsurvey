@@ -1,5 +1,5 @@
-import os
-import base64
+import string
+import random
 import click
 from flask.cli import with_appcontext
 
@@ -45,7 +45,10 @@ def import_users_command():
     count = 0
 
     for crsid in f:
-        db.execute("INSERT INTO user (crsid, formtoken) VALUES (?, ?)", (crsid.strip(), base64.b64encode(os.urandom(32))))
+        db.execute("INSERT INTO user (crsid, formtoken) VALUES (?, ?)", (
+            crsid.strip(),
+            ''.join(random.choices(string.ascii_letters + string.digits, k=32))
+        ))
         db.commit()
         count += 1
 

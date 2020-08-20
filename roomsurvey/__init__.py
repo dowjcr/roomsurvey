@@ -1,5 +1,5 @@
 import flask
-from flask import Flask, render_template, session, redirect, g, request
+from flask import Flask, render_template, session, redirect, g, request, abort
 import os
 from ucam_webauth.raven.flask_glue import AuthDecorator
 import json
@@ -7,6 +7,8 @@ import json
 from roomsurvey.log import log
 
 def create_app(test_config = None):
+
+    # Create the app object and import some config
 
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
@@ -24,6 +26,8 @@ def create_app(test_config = None):
         os.makedirs(app.instance_path)
     except OSError:
         pass
+
+    # Load middleware and commands
 
     from flask_wtf.csrf import CSRFProtect
     csrf = CSRFProtect()
@@ -51,7 +55,7 @@ def create_app(test_config = None):
 
     from roomsurvey.syndicate import get_syndicate_for_user, get_syndicate_invitations, update_invitation, create_syndicate
     from roomsurvey.user import get_user, is_syndicatable
-    from roomsurvey.survey import get_survey_data
+    from roomsurvey.survey import get_survey_data, import_survey_data, log_survey_data
 
     @app.before_request
     def before_request_handler():
@@ -112,7 +116,7 @@ def create_app(test_config = None):
     @app.route("/invite/reject", methods=["POST"])
     @auth_decorator
     def invite_reject():
-        log(g.crsid, "has rejected a syndicate invitation")
+        log(g.crsid, "has rejected a syndicate invitation (WARN)")
         update_invitation(g.crsid, False)
         return redirect("/dashboard", 302)
 
@@ -121,6 +125,15 @@ def create_app(test_config = None):
     def api_is_syndicatable(crsid):
         resp = is_syndicatable(crsid)
         return json.dumps(resp)
+
+    @app.route("/api/survey_data/"+app.config["COGNITOFORMS_KEY"], methods=["POST"])
+    @csrf.exempt
+    def api_survey_data():
+        if request.content_length > 65536:
+            abort(413)
+
+        log_survey_data(request.get_data())
+        return import_survey_data(request.get_json())
 
     @app.route("/survey")
     @auth_decorator
@@ -144,5 +157,7 @@ def create_app(test_config = None):
     def logout():
         session.clear()
         return redirect("/", code=302)
+
+    # The app is complete and ready to accept requests
 
     return app
