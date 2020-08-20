@@ -37,7 +37,8 @@ p.text-muted {
 	<div class="form-signin">
 		<img class="mb-4" src="{{ url_for('static', filename='dowjcrpurple.png') }}" width=72 alt="Downing JCR Logo" />
 		<h1 class="h3 mb-3 font-weight-normal">Sorry, there was a problem.</h1>
-		<p class="mt-5 mb-3 text-muted">The user <strong>{{ g.crsid }}</strong> is not on the list of students in the ballot. Please contact internet&#64;jcr.dow.cam.ac.uk if you believe this is a mistake.</p>
+		<!--		<p class="mt-5 mb-3 text-muted">The user <strong>{{ g.crsid }}</strong> is not on the list of students in the ballot. Please contact internet&#64;jcr.dow.cam.ac.uk if you believe this is a mistake.</p>-->
+		<p class="mt-5 mb-3 text-muted">The ballot is not yet open. Please come back later.</p>
 		<form action="/logout" method="POST">
 			<input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
 			<button type="submit" class="btn btn-primary">Log out</button>
