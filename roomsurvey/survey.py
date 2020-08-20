@@ -41,6 +41,8 @@ def import_survey_data(data):
     if user_data["has_filled"] == 1:
         log(data["CRSid"], "filled in the form more than once (WARN)")
 
+    log(data["CRSid"], "filled in the form ok")
+
     db.execute("UPDATE user SET has_filled=1 WHERE crsid=?", (data["CRSid"],))
     db.commit()
 
