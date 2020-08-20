@@ -47,7 +47,7 @@ def import_users_command():
     for crsid in f:
         db.execute("INSERT INTO user (crsid, formtoken) VALUES (?, ?)", (
             crsid.strip(),
-            ''.join(random.choices(string.ascii_letters + string.digits, k=32))
+            ''.join(random.SystemRandom().choice(string.ascii_letters + string.digits) for _ in range(32))
         ))
         db.commit()
         count += 1
