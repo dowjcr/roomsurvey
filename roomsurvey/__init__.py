@@ -39,6 +39,9 @@ def create_app(test_config = None):
     from . import user
     user.init_app(app)
 
+    from . import mail
+    mail.init_app(app)
+
     # Raven authentication
 
     # Request class boilerplate adapted from python-ucam-webauth
