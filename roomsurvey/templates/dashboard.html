@@ -20,7 +20,11 @@
 
 			<p>You have not formed a syndicate yet.</p>
 
+			{% if g.current_time > config.CLOSE_SYNDICATES %}
+			<p>The deadline for creation of new syndicates has passed.</p>
+			{% else %}
 			<a class="btn btn-outline-secondary" href="/syndicate">Create a syndicate &raquo;</a>
+			{% endif %}
 
 			{% if invites|length > 0 %}
 			<p>You have been invited to join a syndicate.</p>

@@ -3,6 +3,7 @@ from flask import Flask, render_template, session, redirect, g, request, abort
 import os
 from ucam_webauth.raven.flask_glue import AuthDecorator
 import json
+import time
 
 from roomsurvey.log import log
 
@@ -68,6 +69,8 @@ def create_app(test_config = None):
             if not get_user(g.crsid):
                 return render_template("unauthorised.html")
 
+        g.current_time = int(time.time())
+
     @app.route("/dashboard")
     @auth_decorator
     def dashboard():
@@ -86,16 +89,19 @@ def create_app(test_config = None):
         for i in invitees:
             resp = is_syndicatable(i)
             if not resp["ok"]:
-                raise Exception(resp["reason"])
+                return abort(400)
 
         if len(invitees) > 8 or len(invitees) < 0:
-            raise Exception("Bad syndicate length")
+            return abort(400)
         
         if len(set(invitees)) != len(invitees):
-            raise Exception("Duplicates")
+            return abort(400)
 
         if g.crsid not in invitees:
-            raise Exception("Must invite self")
+            return abort(400)
+
+        if g.current_time > app.config["CLOSE_SYNDICATES"]:
+            return abort(400)
 
         log(g.crsid, "created syndicate and invited " + ",".join(invitees))
         if request.form["want-to-stay"] == "yes":
@@ -133,7 +139,7 @@ def create_app(test_config = None):
     @csrf.exempt
     def api_survey_data():
         if request.content_length > 65536:
-            abort(413)
+            return abort(413)
 
         log_survey_data(request.get_data())
         return import_survey_data(request.get_json())

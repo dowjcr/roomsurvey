@@ -4,7 +4,7 @@
 
 {% block pagecontent %}
 
-{% if not syndicate %}
+{% if not syndicate and g.current_time <= config.CLOSE_SYNDICATES %}
 
 <div class="smallcontainer" id="content">
 	<h1>Create a syndicate</h1>
@@ -33,6 +33,12 @@
 </form>
 
 <script type="text/javascript" src="{{ url_for("static", filename="syndicate.js") }}"></script>
+
+{% elif not syndicate %}
+
+<div class="smallcontainer">
+	<p>Sorry, but the deadline for the creation of new syndicates has now passed.</p>
+</div>
 
 {% else %}
 
