@@ -167,6 +167,14 @@ def create_app(test_config = None):
         session.clear()
         return redirect("/", code=302)
 
+    @app.route("/allocations")
+    @auth_decorator
+    def allocations():
+        if g.current_time < app.config["SHOW_ALLOCATIONS"]:
+            return abort(403)
+
+        return render_template("allocations.html")
+
     # The app is complete and ready to accept requests
 
     return app

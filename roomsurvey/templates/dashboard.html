@@ -9,7 +9,12 @@
 
 {% if syndicate.complete and survey_data.has_filled == 1 %}
 <div class="alert alert-success" role="alert">
-	Your syndicate is complete and you have filled in the room preferences survey. Thanks! We'll be in touch soon with the details of your room.
+	Your syndicate is complete and you have filled in the room preferences survey. Thanks!
+	{% if g.current_time < config.SHOW_ALLOCATIONS %}
+	We'll be in touch soon with the details of your room.
+	{% else %}
+	You can view the list of room allocations <a href="/allocations">here</a>.
+	{% endif %}
 </div>
 {% endif %}
 	<div class="row">
@@ -45,6 +50,7 @@
 		</div></div>
 
 		<div class="col-md-6"><div class="dashboard-item">
+			{% if g.current_time < config.SHOW_ALLOCATIONS %}
 			<h2>Room survey</h2>
 			{% if survey_data.has_filled == 1 %}
 			<p>You have already filled in the room preferences survey. Thanks!</p>
@@ -52,6 +58,10 @@
 			<p>Please fill in a short survey describing your preferences in a room. This allows us to match you with the best room possible.</p>
 			<a class="btn btn-outline-secondary" href="/survey">Fill in survey &raquo;</a>
 			{% endif %}
+			{% else %}
+			<h2>Room allocations</h2>
+			<p>You can view the list of room allocations <a href="/allocations">here</a>.</p>
+			{% endif%}
 		</div></div>
 	</div>
 	
