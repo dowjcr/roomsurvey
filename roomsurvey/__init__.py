@@ -43,6 +43,9 @@ def create_app(test_config = None):
     from . import mail
     mail.init_app(app)
 
+    from . import allocations
+    allocations.init_app(app)
+
     # Raven authentication
 
     # Request class boilerplate adapted from python-ucam-webauth
@@ -60,6 +63,8 @@ def create_app(test_config = None):
     from roomsurvey.syndicate import get_syndicate_for_user, get_syndicate_invitations, update_invitation, create_syndicate
     from roomsurvey.user import get_user, is_syndicatable
     from roomsurvey.survey import get_survey_data, import_survey_data, log_survey_data
+    from roomsurvey.allocations import get_allocation_for_user
+    from roomsurvey.review import has_reviewed, check_review, write_review
 
     @app.before_request
     def before_request_handler():
@@ -174,6 +179,40 @@ def create_app(test_config = None):
             return abort(403)
 
         return render_template("allocations.html")
+
+    @app.route("/review")
+    @auth_decorator
+    def review():
+        if not app.config["ROOM_REVIEWS"]:
+            return abort(403)
+
+        room = get_allocation_for_user(g.crsid)
+        if room is None:
+            return abort(403)
+
+        if has_reviewed(g.crsid):
+            return render_template("review_thanks.html")
+
+        return render_template("review.html", room=room)
+
+    @app.route("/review", methods=["POST"])
+    @auth_decorator
+    def leave_review():
+        if not app.config["ROOM_REVIEWS"]:
+            return abort(403)
+
+        room = get_allocation_for_user(g.crsid)
+        if room is None:
+            return abort(403)
+
+        if has_reviewed(g.crsid):
+            return abort(403)
+
+        if not check_review(request.form):
+            return abort(400)
+
+        write_review(g.crsid, room, request.form)
+        return render_template("review_thanks.html")
 
     # The app is complete and ready to accept requests
 

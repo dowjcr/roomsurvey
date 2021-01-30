@@ -13,6 +13,10 @@ $ . venv/bin/activate
 (venv) $ FLASK_APP=roomsurvey flask run
 ```
 
+You can set up the database with the `init-db` command, but currently you might need to apply migrations
+from the `migrations` directory to make sure you have the latest schema. One day I might fix this and make
+it a bit more convenient.
+
 ## Built with
 
   * [Flask](https://flask.palletsprojects.com/en/1.1.x/)

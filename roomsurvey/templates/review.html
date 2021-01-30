@@ -1,0 +1,83 @@
+{% extends 'base_authenticated.html' %}
+
+{% block title %}Review your room{% endblock %}
+
+{% block pagecontent %}
+
+<div class="smallcontainer">
+	<h1>Leave a room review</h1>
+
+	<p>
+		Thank you for agreeing to leave a review of your room. Your review will help others
+		choose their rooms in the future.
+	</p>
+
+	<p>
+		You are leaving a review for the following room: <strong>{{ room }}</strong>
+	</p>
+
+	<p>
+		If this is not your room, please do not proceed! Instead, contact the internet officer
+		(<a href="mailto:internet@jcr.dow.cam.ac.uk">internet@jcr.dow.cam.ac.uk</a>).
+	</p>
+
+	<form method="post">
+		<input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+		<div class="form-group">
+			<label for="title">Review title:</label>
+			<input type="text" id="title" name="title" class="form-control" required>
+		</div>
+		<div class="form-group">
+			<label for="layout-rating">How well laid out is your room?</label>
+			<select class="form-control" id="layout-rating" name="layout-rating" required>
+				<option disabled selected value>-- select an option --</option>
+				<option>1 (worst)</option>
+				<option>2</option>
+				<option>3</option>
+				<option>4</option>
+				<option>5 (best)</option>
+			</select>
+		</div>
+		<div class="form-group">
+			<label for="facilities-rating">How would you rate your room's facilities?</label>
+			<select class="form-control" id="facilities-rating" name="facilities-rating" required>
+				<option disabled selected value>-- select an option --</option>
+				<option>1 (worst)</option>
+				<option>2</option>
+				<option>3</option>
+				<option>4</option>
+				<option>5 (best)</option>
+			</select>
+		</div>
+		<div class="form-group">
+			<label for="noise-rating">How quiet is your room?</label>
+			<select class="form-control" id="noise-rating" name="noise-rating" required>
+				<option disabled selected value>-- select an option --</option>
+				<option>1 (worst)</option>
+				<option>2</option>
+				<option>3</option>
+				<option>4</option>
+				<option>5 (best)</option>
+			</select>
+		</div>
+		<div class="form-group">
+			<label for="overall-rating">How would you rate your room overall?</label>
+			<select class="form-control" id="overall-rating" name="overall-rating" required>
+				<option disabled selected value>-- select an option --</option>
+				<option>1 (worst)</option>
+				<option>2</option>
+				<option>3</option>
+				<option>4</option>
+				<option>5 (best)</option>
+			</select>
+		</div>
+		<div class="form-group">
+			<label for="text">Review</label>
+			<textarea class="form-control" rows="5" id="text" name="text" required></textarea>
+		</div>
+
+		<button type="submit" class="btn btn-primary">Submit &raquo;</button>
+	</form>
+</div>
+
+{% endblock %}
