@@ -17,3 +17,6 @@ build/
 
 crsids.txt
 roomsurvey.wsgi
+
+roomsurvey/templates/allocations.html
+allocations.csv
