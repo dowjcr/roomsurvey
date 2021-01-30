@@ -26,7 +26,7 @@ it a bit more convenient.
 
 ## Author
 
-Lawrence Brown, JCR Internet Officer 2019/20
+Lawrence Brown, JCR Internet Officer 2020/21
 
 ## License
 
