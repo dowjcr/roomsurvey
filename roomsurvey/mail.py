@@ -12,10 +12,33 @@ def queue_email(to, subject, body):
     db.execute("INSERT INTO mail_queue (recipient, subject, body) VALUES (?, ?, ?)", (to, subject, body))
     db.commit()
 
+# Probably best to use the templating engine for these emails, but this works fine for now
+
 def syndicate_mail(inviter, invitee):
     to = invitee+"@cam.ac.uk"
     subject = "Downing JCR Room Ballot"
     body = "Hello,\n\nThe user "+inviter+" has invited you to join their syndicate. To view the invitation, please click on the following link:\n\nhttps://ballot.downingjcr.co.uk/invite\n\nIf you have any questions, feel free to reply to this email."
+
+    queue_email(to, subject, body)
+
+def review_mail(recipient, room):
+    to = recipient+"@cam.ac.uk"
+    subject = "Downing JCR Room Ballot: Please leave a review of your room!"
+    body = ("Hi everyone,\n\n"
+            "Hope you are all keeping well at the moment.\n\n"
+            "You're receiving this email because our records indicate you have\n"
+            "been living in room %s.\n\n"
+            "It would be a huge help to us if you could leave a review of your\n"
+            "room - this helps us determine room pricing and gives future\n"
+            "students more information to help them choose their rooms.\n\n"
+            "You can leave a review by clicking on the following link:\n"
+            "https://ballot.downingjcr.co.uk/review\n\n"
+            "If the room we have on record for you is not correct, or you have\n"
+            "any issues leaving a review, please just reply to this email and\n"
+            "we will do our best to sort it out.\n\n"
+            "Thanks in advance for your help!\n\n"
+            "Sending Downing love from afar,\n\n"
+            "Lawrence, Tammy and the JCR") % room
 
     queue_email(to, subject, body)
 
