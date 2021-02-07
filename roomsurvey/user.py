@@ -18,6 +18,18 @@ def get_user(crsid):
 
     return False
 
+def get_year(crsid):
+    # returns the number of the year of the given user
+
+    db = get_db()
+
+    user_data = db.execute("SELECT year FROM user WHERE crsid=?", (crsid,)).fetchone()
+
+    if not user_data:
+        return False
+
+    return user_data["year"]
+
 def is_syndicatable(crsid):
     # Checks if a user is in a fit state to join a syndicate
 

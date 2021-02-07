@@ -64,7 +64,7 @@ def create_app(test_config = None):
     # Create the routes
 
     from roomsurvey.syndicate import get_syndicate_for_user, get_syndicate_invitations, update_invitation, create_syndicate
-    from roomsurvey.user import get_user, is_syndicatable
+    from roomsurvey.user import get_user, get_year, is_syndicatable
     from roomsurvey.survey import get_survey_data, import_survey_data, log_survey_data
     from roomsurvey.allocations import get_allocation_for_user
     from roomsurvey.review import has_reviewed, check_review, write_review
@@ -72,10 +72,13 @@ def create_app(test_config = None):
     @app.before_request
     def before_request_handler():
         g.crsid = auth_decorator.principal
+
+        # fullname is ONLY set if the user is both authenticated AND in the database
         g.fullname = None
 
         if g.crsid:
             g.fullname = get_user(g.crsid)
+            g.user_year = get_year(g.crsid)
 
         if request.path != "/logout" and not request.path.startswith("/static") and not g.fullname:
             return render_template("unauthorised.html")

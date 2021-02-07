@@ -9,8 +9,10 @@
 <div class="smallcontainer" id="content">
 	<h1>Create a syndicate</h1>
 	<p>This form allows you to <strong>create a new syndicate</strong>. If you want to join another syndicate that somebody has already invited you to, then you should return to the <a href="/dashboard">dashboard</a>.</p>
-	<div class="alert alert-warning" role="alert">If your syndicate contains students with a large range of price preferences, the maximum price guarantees <em>may</em> be increased, and it is likely that the students wanting more expensive rooms won't receive all their preferred facilities. We recommend having a conversation with your syndicate about what rooms you can afford. <i><a target="_blank" href="https://www.notion.so/Pricing-and-financial-support-d9ac97b9db7b4fc4a34bbb5fb9b17b52#169dc451de4d4a69a7d08e24e5279fb1">More info</a></i></div>
-	<div class="alert alert-warning" role="alert">If your or one of your syndicate's out the ballot requirements conflict with your or one of your syndicate's price guarantees, we will revoke the price guarantee. <i><a target="_blank" href="https://www.notion.so/Out-the-ballot-students-d35f2bb59af74d75a4ee34e396181925#6d44ebe941eb4361941e482952dce799">More info</a></i></div>
+	{% if g.user_year == 2 %}
+	<div class="alert alert-warning" role="alert">It is unlikely, but possible, that we will have to break up syndicates of 7 or 8 if there is no COVID-safe way of fitting them in. In the event that this happens, we will contact all the members of your syndicate to discuss the situation. <i><a target="_blank" href="https://www.notion.so/downingballot/Forming-syndicates-f2f9a8c0925f416a8289305c86c0e380#50db4f7a6a4a4f2d90e621f0aad6a53d">More info</a></i></div>
+	{% endif %}
+	<div class="alert alert-warning" role="alert">You should have a discussion with your syndicate and decide whether you would like long- or short-lease rooms, and whether you would like to live in a house or a staircase. If your preference forms don't match up, we will contact you and let you know, in case you have made a mistake. <i><a target="_blank" href="https://www.notion.so/downingballot/Forming-syndicates-f2f9a8c0925f416a8289305c86c0e380#17708acc94d1450a96d3da9fed896ab1">More info</a></i></div>
 
 	<noscript>This form requires JavaScript to be enabled in your browser, sorry. All JS on this page is available under a free license. If you really do not want to enable JavaScript, please <a href="/about">contact the Internet Officer</a> and they will create your syndicate manually.</noscript>
 
