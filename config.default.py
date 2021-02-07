@@ -17,7 +17,7 @@ COGNITOFORMS_KEY = "development1337"
 CLOSE_SYNDICATES = 9999999999
 
 # Time (in unix format) to show room allocations
-SHOW_ALLOCATIONS = 0
+SHOW_ALLOCATIONS = 9999999999
 
 # Are room reviews open yet?
 ROOM_REVIEWS = False

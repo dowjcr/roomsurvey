@@ -15,6 +15,8 @@ $ python3 -m venv venv
 $ . venv/bin/activate
 (venv) $ pip3 install -r requirements.txt
 (venv) $ export FLASK_APP=roomsurvey
+(venv) $ mkdir instance
+(venv) $ cp config.default.py instance/config.py
 (venv) $ flask init-db
 (venv) $ flask import-users
 (venv) $ flask run
