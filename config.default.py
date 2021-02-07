@@ -19,5 +19,8 @@ CLOSE_SYNDICATES = 9999999999
 # Time (in unix format) to show room allocations
 SHOW_ALLOCATIONS = 9999999999
 
+# Time (in unix format) to open the room survey
+SHOW_SURVEY      = 9999999999
+
 # Are room reviews open yet?
 ROOM_REVIEWS = False

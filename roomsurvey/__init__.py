@@ -158,6 +158,9 @@ def create_app(test_config = None):
     @app.route("/survey")
     @auth_decorator
     def survey():
+        if g.current_time < app.config["SHOW_SURVEY"]:
+            return abort(403)
+
         return render_template("survey.html", survey_data=get_survey_data(g.crsid))
 
     @app.route("/")

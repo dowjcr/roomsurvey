@@ -50,7 +50,10 @@
 		</div></div>
 
 		<div class="col-md-6"><div class="dashboard-item">
-			{% if g.current_time < config.SHOW_ALLOCATIONS %}
+			{% if g.current_time > config.SHOW_ALLOCATIONS %}
+			<h2>Room allocations</h2>
+			<p>You can view the list of room allocations <a href="/allocations">here</a>.</p>
+			{% elif g.current_time > config.SHOW_SURVEY %}
 			<h2>Room survey</h2>
 			{% if survey_data.has_filled == 1 %}
 			<p>You have already filled in the room preferences survey. Thanks!</p>
@@ -59,9 +62,9 @@
 			<a class="btn btn-outline-secondary" href="/survey">Fill in survey &raquo;</a>
 			{% endif %}
 			{% else %}
-			<h2>Room allocations</h2>
-			<p>You can view the list of room allocations <a href="/allocations">here</a>.</p>
-			{% endif%}
+			<h2>Room survey</h2>
+			<p>The room survey will be ready soon. Thanks for your patience!</p>
+			{% endif %}
 		</div></div>
 	</div>
 	
