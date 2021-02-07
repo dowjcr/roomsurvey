@@ -19,6 +19,9 @@ DROP TABLE IF EXISTS user;
 
 CREATE TABLE user (
 	crsid TEXT UNIQUE PRIMARY KEY,
+	forename TEXT,
+	surname TEXT NOT NULL,
+	year INTEGER NOT NULL,
 	syndicate INTEGER DEFAULT NULL,
 	formtoken TEXT NOT NULL,
 	has_filled INTEGER NOT NULL DEFAULT 0

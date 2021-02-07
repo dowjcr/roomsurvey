@@ -16,6 +16,7 @@ build/
 *.swp
 
 crsids.txt
+users.csv
 roomsurvey.wsgi
 
 roomsurvey/templates/allocations.html

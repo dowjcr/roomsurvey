@@ -1,6 +1,7 @@
 import string
 import random
 import click
+import csv
 from flask.cli import with_appcontext
 
 from roomsurvey.db import get_db
@@ -40,17 +41,24 @@ def is_syndicatable(crsid):
 @with_appcontext
 def import_users_command():
     db = get_db()
-    f = open("crsids.txt", "r")
 
-    count = 0
+    with open("users.csv", newline="") as users_file:
+        # csv format: crsid,forename,surname,year
+        # cf. https://github.com/dowjcr/ucam-lookup-byyear
 
-    for crsid in f:
-        db.execute("INSERT INTO user (crsid, formtoken) VALUES (?, ?)", (
-            crsid.strip(),
-            ''.join(random.SystemRandom().choice(string.ascii_letters + string.digits) for _ in range(32))
-        ))
-        db.commit()
-        count += 1
+        count = 0
+
+        reader = csv.reader(users_file)
+        for row in reader:
+            db.execute("INSERT INTO user (crsid, forename, surname, year, formtoken) VALUES (?, ?, ?, ?, ?)", (
+                row[0],
+                row[1],
+                row[2],
+                row[3],
+                ''.join(random.SystemRandom().choice(string.ascii_letters + string.digits) for _ in range(32))
+            ))
+            db.commit()
+            count += 1
 
     print("Imported", str(count), "users")
 
