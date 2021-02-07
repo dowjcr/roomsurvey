@@ -1,6 +1,10 @@
 # Downing JCR Room Ballot Survey
 
-This system was developed in order to facilitate the collection of syndicate and room preference information during the re-run of the room ballot due to COVID-19, in conjunction with Matt Moore's room selection algorithm. As such, it was written very quickly to meet a tight deadline and might benefit from some improvements if used again.
+**This branch is for the 2021 room ballot. The database schema is not compatible with previous versions.**
+The 2020 codebase lives on in the `2020` branch.
+
+This web-app facilitates the collection of syndicate and room preference information, which can be passed
+to Matt Moore's room selection algorithm.
 
 ## Installation
 
@@ -10,12 +14,24 @@ You probably want to do this with a `virtualenv`. For a simple development envir
 $ python3 -m venv venv
 $ . venv/bin/activate
 (venv) $ pip3 install -r requirements.txt
-(venv) $ FLASK_APP=roomsurvey flask run
+(venv) $ export FLASK_APP=roomsurvey
+(venv) $ flask init-db
+(venv) $ flask import-users
+(venv) $ flask run
 ```
 
-You can set up the database with the `init-db` command, but currently you might need to apply migrations
-from the `migrations` directory to make sure you have the latest schema. One day I might fix this and make
-it a bit more convenient.
+ * `init-db` initialises the database according to `roomsurvey/schema.sql`.
+ * `import-users` imports the `users.csv` file into the database. This file can be generated using the
+ [ucam-lookup-byyear](https://github.com/dowjcr/ucam-lookup-byyear) script.
+ * `import-allocations` imports room allocation data from the `allocations.csv` file produced by the room
+ selection program. This is required in order to get room reviews.
+ * `send-review-reminder` queues an email to be sent to everyone who has been allocated a room. See
+ `roomsurvey/mail.py` for more information.
+ * `send-emails` sends any queued emails, and should be run by cron in production. Only sending via the local
+ mail server is supported at the moment.
+
+All the routes of the web-app are defined in `roomsurvey/__init__.py`. Reading this file will give you a
+quick overview of the app's architecture.
 
 ## Built with
 
