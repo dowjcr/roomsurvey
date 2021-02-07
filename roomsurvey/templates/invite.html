@@ -12,10 +12,10 @@ You don't appear to have been invited to a syndicate, sorry!
 
 <div class="smallcontainer">
 	<h1>Syndicate invitation</h1>
-	<p>The user <strong>{{ invites[0].owner }}</strong> has invited you to join their syndicate. The other (invited) members of the syndicate are as follows:</p>
+	<p>The user <strong>{{ get_user(invites[0].owner) }}</strong> has invited you to join their syndicate. The other (invited) members of the syndicate are as follows:</p>
 	<ul>
 	{% for member in invites[0].other_invites %}
-		<li>{{ member.recipient }}</li>
+		<li>{{ get_user(member.recipient) }}</li>
 	{% endfor %}
 	</ul>
 	<form action="/invite/accept" method="POST" style="display:inline-block">

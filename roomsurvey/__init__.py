@@ -72,10 +72,13 @@ def create_app(test_config = None):
     @app.before_request
     def before_request_handler():
         g.crsid = auth_decorator.principal
+        g.fullname = None
 
-        if g.crsid and request.path != "/logout" and not request.path.startswith("/static"):
-            if not get_user(g.crsid):
-                return render_template("unauthorised.html")
+        if g.crsid:
+            g.fullname = get_user(g.crsid)
+
+        if request.path != "/logout" and not request.path.startswith("/static") and not g.fullname:
+            return render_template("unauthorised.html")
 
         g.current_time = int(time.time())
 
@@ -216,6 +219,10 @@ def create_app(test_config = None):
 
         write_review(g.crsid, room, request.form)
         return render_template("review_thanks.html")
+
+    # cheeky jinja function override so that we can make database calls from the templates
+    # this is a bit of a hack but it makes the python code a lot cleaner
+    app.jinja_env.globals.update(get_user=get_user)
 
     # The app is complete and ready to accept requests
 

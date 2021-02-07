@@ -25,6 +25,7 @@
 </div>
 
 <input type="hidden" id="mycrsid" value="{{ g.crsid }}" />
+<input type="hidden" id="myname" value="{{ g.fullname }}" />
 
 <form action="/syndicate/create" method="POST" id="syndicate-form">
 	<input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
@@ -46,12 +47,12 @@
 	<h1>Your syndicate</h1>
 	<p>Your syndicate contains the following members:</p>
 	<ul>
-		<li>{{ syndicate.owner }} (founder)</li>
+		<li>{{ get_user(syndicate.owner) }} (founder)</li>
 		{% for user in syndicate.others %}
-		<li>{{ user.crsid }}</li>
+		<li>{{ get_user(user.crsid) }}</li>
 		{% endfor %}
 		{% for invite in syndicate.invited %}
-		<li>{{ invite.recipient }} (invited, but has not yet accepted their invitation)</li>
+		<li>{{ get_user(invite.recipient) }} (invited, but has not yet accepted their invitation)</li>
 		{% endfor %}
 	</ul>
 	<p>If these arrangements do not seem correct, please contact the JCR Internet Officer (internet@jcr.dow.cam.ac.uk) as soon as possible!</p>

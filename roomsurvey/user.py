@@ -7,14 +7,14 @@ from flask.cli import with_appcontext
 from roomsurvey.db import get_db
 
 def get_user(crsid):
-    # returns true if user exists, else false
+    # returns full name if user exists, else false
     
     db = get_db()
 
-    user_data = db.execute("SELECT crsid FROM user WHERE crsid=?", (crsid,)).fetchone()
+    user_data = db.execute("SELECT forename,surname FROM user WHERE crsid=?", (crsid,)).fetchone()
 
     if user_data:
-        return True
+        return user_data["forename"]+" "+user_data["surname"]
 
     return False
 
@@ -30,12 +30,20 @@ def is_syndicatable(crsid):
     if user_data["syndicate"]:
         return {"ok": False, "reason": "This user is already part of another syndicate."}
 
-    invite_data = db.execute("SELECT id FROM syndicate_invitation WHERE recipient=? AND used=0", (crsid,)).fetchone()
+    invite_data = db.execute(
+        "SELECT id FROM syndicate_invitation WHERE recipient=? AND used=0",
+        (crsid,)
+    ).fetchone()
 
     if invite_data:
-        return {"ok": False, "reason": "This user has already been invited to another syndicate. Please allow them to deal with life's dillemas one at a time."}
+        return {"ok": False, "reason": (
+            "This user has already been invited to another syndicate. Please allow them to deal with life's "
+            "dillemas one at a time."
+        )}
 
-    return {"ok": True}
+    full_name = get_user(crsid)
+
+    return {"ok": True, "name": full_name}
 
 @click.command("import-users")
 @with_appcontext

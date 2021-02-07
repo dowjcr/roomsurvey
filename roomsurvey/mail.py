@@ -3,6 +3,7 @@ import click
 import smtplib
 
 from roomsurvey.db import get_db
+from roomsurvey.user import get_user
 
 # TODO: remove hard-coded downingjcr values from this whole file
 
@@ -17,7 +18,11 @@ def queue_email(to, subject, body):
 def syndicate_mail(inviter, invitee):
     to = invitee+"@cam.ac.uk"
     subject = "Downing JCR Room Ballot"
-    body = "Hello,\n\nThe user "+inviter+" has invited you to join their syndicate. To view the invitation, please click on the following link:\n\nhttps://ballot.downingjcr.co.uk/invite\n\nIf you have any questions, feel free to reply to this email."
+    body = ("Hello,\n\n"
+            "%s has invited you to join their syndicate. To view the invitation,\n"
+            "please click on the following link:\n\n"
+            "https://ballot.downingjcr.co.uk/invite\n\n"
+            "If you have any questions, please feel free to reply to this email.") % get_user(inviter)
 
     queue_email(to, subject, body)
 

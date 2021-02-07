@@ -1,8 +1,11 @@
 var invitees = [];
+var inviteeNames = [];
 var oldHtml;
 
 function clearUsers() {
     var mycrsid = document.getElementById("mycrsid").value;
+	var myname = document.getElementById("myname").value;
+	inviteeNames = [myname];
     invitees = [mycrsid];
     updateUserList();
 }
@@ -17,7 +20,7 @@ function updateUserList() {
     var userListControl = document.getElementById("userlist");
     var userList = "";
     var first = true;
-    invitees.forEach(function(invitee) {
+    inviteeNames.forEach(function(invitee) {
         if (first) {
             first = false;
         } else {
@@ -72,6 +75,7 @@ function addUser() {
 
 			if (resp["ok"]) {
 				invitees.push(crsid);
+				inviteeNames.push(resp["name"]);
 				updateUserList();
 				return;
 			}
@@ -97,7 +101,7 @@ function showFinalCheck() {
 
     var html = "<h1>Final check</h1><p>You are about to create a syndicate and invite the following members:</p><ul>";
 
-    invitees.forEach(function(invitee) {
+    inviteeNames.forEach(function(invitee) {
         html = html.concat("<li>" + htmlEncode(invitee) + "</li>");
     });
 
