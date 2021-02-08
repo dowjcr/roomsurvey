@@ -201,7 +201,7 @@ def create_app(test_config = None):
     @auth_decorator
     def review():
         if not app.config["ROOM_REVIEWS"]:
-            return abort(403)
+            return render_template("review_no.html")
 
         room = get_allocation_for_user(g.crsid)
         if room is None:
