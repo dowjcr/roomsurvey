@@ -53,7 +53,7 @@ def send_emails_command():
     # Right now only sending over plaintext to the local mail server is supported
     SMTP_HOST = "localhost"
     SMTP_PORT = 25
-    SMTP_SENDER = "noreply@ballot.downingjcr.co.uk"
+    SMTP_SENDER = "system@ballot.downingjcr.co.uk"
     SMTP_REPLYTO = "internet@jcr.dow.cam.ac.uk"
 
     db = get_db()
