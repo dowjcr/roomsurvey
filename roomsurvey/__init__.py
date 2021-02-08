@@ -80,7 +80,12 @@ def create_app(test_config = None):
             g.fullname = get_user(g.crsid)
             g.user_year = get_year(g.crsid)
 
-        if request.path != "/logout" and not request.path.startswith("/static") and not g.fullname:
+        if (
+                g.crsid and
+                request.path != "/logout" and
+                not request.path.startswith("/static") and
+                not g.fullname
+           ):
             return render_template("unauthorised.html")
 
         g.current_time = int(time.time())
