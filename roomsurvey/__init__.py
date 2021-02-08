@@ -123,10 +123,8 @@ def create_app(test_config = None):
             return abort(400)
 
         log(g.crsid, "created syndicate and invited " + ",".join(invitees))
-        if request.form["want-to-stay"] == "yes":
-            log(g.crsid, "said their syndicate wants to stay")
 
-        create_syndicate(g.crsid, invitees, request.form["want-to-stay"])
+        create_syndicate(g.crsid, invitees, g.user_year)
         return redirect("/dashboard", 302)
 
     @app.route("/invite")
