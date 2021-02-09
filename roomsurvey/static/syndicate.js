@@ -39,6 +39,8 @@ function addUser() {
 
 	var feedback = document.getElementById("invalid-feedback");
 
+	let maxSize = parseInt(document.getElementById("maxsize").value);
+
 	// Validate the input
 
 	function resetInput() {
@@ -55,10 +57,10 @@ function addUser() {
 		return;
 	}
 
-	if (invitees.length == 8) {
+	if (invitees.length == maxSize) {
 		resetInput();
 		crsidInput.classList.add("is-invalid");
-		feedback.innerHTML = "The maximum syndicate size is 8";
+		feedback.innerHTML = "The maximum syndicate size is "+maxSize.toString()+".";
 		return;
 	}
 	
@@ -91,7 +93,8 @@ function addUser() {
 
 	};
 
-	xhttp.open("GET", "/api/is_syndicatable/"+crsid, true);
+	let year = document.getElementById("myyear").value;
+	xhttp.open("GET", "/api/is_syndicatable/"+year+"/"+crsid, true);
 	xhttp.send();
 }
 

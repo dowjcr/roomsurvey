@@ -24,3 +24,9 @@ SHOW_SURVEY      = 9999999999
 
 # Are room reviews open yet?
 ROOM_REVIEWS = False
+
+# The maximum size for syndicates in each year
+SYNDICATE_MAXSIZE = {
+    1: 6, # First-year syndicates can contain up to 6
+    2: 8  # and second-years get up to 8
+}

@@ -30,17 +30,19 @@ def get_year(crsid):
 
     return user_data["year"]
 
-def is_syndicatable(crsid):
+def is_syndicatable(crsid, year):
     # Checks if a user is in a fit state to join a syndicate
 
     db = get_db()
 
-    user_data = db.execute("SELECT syndicate FROM user WHERE crsid=?", (crsid,)).fetchone()
+    user_data = db.execute("SELECT syndicate, year FROM user WHERE crsid=?", (crsid,)).fetchone()
 
     if not user_data:
         return {"ok": False, "reason": "This person is not in the ballot."}
     if user_data["syndicate"]:
         return {"ok": False, "reason": "This user is already part of another syndicate."}
+    if user_data["year"] != year:
+        return {"ok": False, "reason": "This user is not in your year."}
 
     invite_data = db.execute(
         "SELECT id FROM syndicate_invitation WHERE recipient=? AND used=0",

@@ -30,6 +30,8 @@
 
 <input type="hidden" id="mycrsid" value="{{ g.crsid }}" />
 <input type="hidden" id="myname" value="{{ g.fullname }}" />
+<input type="hidden" id="maxsize" value="{{ max_size }}" />
+<input type="hidden" id="myyear" value="{{ g.user_year }}" />
 
 <form action="/syndicate/create" method="POST" id="syndicate-form">
 	<input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>

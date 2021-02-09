@@ -98,7 +98,8 @@ def create_app(test_config = None):
     @app.route("/syndicate")
     @auth_decorator
     def syndicate():
-        return render_template("syndicate.html", syndicate=get_syndicate_for_user(g.crsid))
+        return render_template("syndicate.html", syndicate=get_syndicate_for_user(g.crsid),
+                max_size=app.config["SYNDICATE_MAXSIZE"][g.user_year])
 
     @app.route("/syndicate/create", methods=["POST"])
     @auth_decorator
@@ -106,11 +107,11 @@ def create_app(test_config = None):
         invitees = json.loads(request.form['invitees-json'])
 
         for i in invitees:
-            resp = is_syndicatable(i)
+            resp = is_syndicatable(i, g.user_year)
             if not resp["ok"]:
                 return abort(400)
 
-        if len(invitees) > 8 or len(invitees) < 0:
+        if len(invitees) > app.config["SYNDICATE_MAXSIZE"][g.user_year] or len(invitees) < 0:
             return abort(400)
         
         if len(set(invitees)) != len(invitees):
@@ -146,10 +147,14 @@ def create_app(test_config = None):
         update_invitation(g.crsid, False)
         return redirect("/dashboard", 302)
 
-    @app.route("/api/is_syndicatable/<crsid>")
+    @app.route("/api/is_syndicatable/<year>/<crsid>")
     @auth_decorator
-    def api_is_syndicatable(crsid):
-        resp = is_syndicatable(crsid)
+    def api_is_syndicatable(year, crsid):
+        try:
+            year = int(year)
+        except ValueError:
+            return abort(400)
+        resp = is_syndicatable(crsid, int(year))
         return json.dumps(resp)
 
     @app.route("/api/survey_data/"+app.config["COGNITOFORMS_KEY"], methods=["POST"])
