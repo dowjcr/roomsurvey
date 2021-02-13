@@ -36,8 +36,13 @@ p.text-muted {
 <body class="text-center">
 	<div class="form-signin">
 		<img class="mb-4" src="{{ url_for('static', filename='dowjcrpurple.png') }}" width=72 alt="Downing JCR Logo" />
+		{% if config.MAINTENANCE_MODE %}
+		<h1 class="h3 mb-3 font-weight-normal">Back soon!</h1>
+		<p class="mt-5 mb-3 text-muted">The ballot website is currently unavailable while we prepare for this year's room ballot. We'll send you an email when everything is ready!</p>
+		{% else %}
 		<h1 class="h3 mb-3 font-weight-normal">Sorry, there was a problem.</h1>
 		<p class="mt-5 mb-3 text-muted">The user <strong>{{ g.crsid }}</strong> is not on the list of students in the ballot. Please contact internet&#64;jcr.dow.cam.ac.uk if you believe this is a mistake.</p>
+		{% endif %}
 		<form action="/logout" method="POST">
 			<input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
 			<button type="submit" class="btn btn-primary">Log out</button>

@@ -30,3 +30,8 @@ SYNDICATE_MAXSIZE = {
     1: 6, # First-year syndicates can contain up to 6
     2: 8  # and second-years get up to 8
 }
+
+# Maintenance mode
+# Currently all this does is display a different message to unauthorised users
+# Useful if you want to setup/test the website without importing the full list of users
+MAINTENANCE_MODE = False
