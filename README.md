@@ -34,9 +34,12 @@ $ . env.sh
 All the routes of the web-app are defined in `roomsurvey/__init__.py`. Reading this file will give you a
 quick overview of the app's architecture.
 
+**Hint**: you might want to take note of who has permission to read `instance/db.sqlite` and
+`instance/config.py`. These files tend to contain sensitive information in production.
+
 ## Built with
 
-  * [Flask](https://flask.palletsprojects.com/en/1.1.x/)
+  * [Flask](https://flask.palletsprojects.com)
   * [python-ucam-webauth](https://python-ucam-webauth.readthedocs.io/en/latest/index.html)
   * [Bootstrap](https://getbootstrap.com)
   * [SQLite](https://sqlite.org)
