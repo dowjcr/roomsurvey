@@ -28,6 +28,8 @@ $ . env.sh
  selection program. This is required in order to get room reviews.
  * `send-review-reminder` queues an email to be sent to everyone who has been allocated a room. See
  `roomsurvey/mail.py` for more information.
+ * `send-survey-reminder` queues an email to be sent to everyone who is part of syndicate in which one or more
+ member(s) has not completed the preferences form. (good for peer pressure)
  * `send-emails` sends any queued emails, and should be run by cron in production. Only sending via the local
  mail server is supported at the moment.
 
