@@ -1,9 +1,13 @@
 import json
 import time
+import click
 from flask import abort
+from flask.cli import with_appcontext
 
 from roomsurvey.db import get_db
 from roomsurvey.log import log
+from roomsurvey.syndicate import get_syndicate_for_user
+from roomsurvey.mail import survey_reminder_mail
 
 def get_survey_data(crsid):
     db = get_db()
@@ -47,3 +51,32 @@ def import_survey_data(data):
     db.commit()
 
     return "OK\n"
+
+@click.command("send-survey-reminder")
+@with_appcontext
+def send_survey_reminder_command():
+    if not click.confirm("You are about to send an email to A LOT OF PEOPLE. Are you sure?"):
+        return
+
+    db = get_db()
+
+    count = 0
+
+    # get all syndicates where somebody has not filled in the form
+
+    syndicate_list = db.execute("SELECT crsid FROM user WHERE syndicate NOT NULL AND has_filled = 0"
+            " GROUP BY syndicate")
+    for syndicate in syndicate_list:
+        syndicate_data = get_syndicate_for_user(syndicate["crsid"])
+        email_recipients = (
+                list(map(lambda x: x["crsid"], syndicate_data["others"])) +
+                [syndicate_data["owner"]]
+        )
+        survey_reminder_mail(email_recipients)
+        count += len(email_recipients)
+
+    print("Queued %d emails" % count)
+    print("They will send on the next run of send-emails")
+
+def init_app(app):
+    app.cli.add_command(send_survey_reminder_command)

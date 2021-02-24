@@ -47,6 +47,27 @@ def review_mail(recipient, room):
 
     queue_email(to, subject, body)
 
+def survey_reminder_mail(recipients):
+    for r in recipients:
+        to = r+"@cam.ac.uk"
+        subject = "[!] Downing JCR Room Ballot: please complete the preferences form!"
+        body = ("Hello,\n\n"
+                "You're receiving this email because one or more users in your syndicate have\n"
+                "not yet completed the room preferences form.\n\n"
+                "You can view the status of your preferences form and complete it if you have\n"
+                "not done so already using the following link:\n"
+                "https://ballot.downingjcr.co.uk\n\n"
+                "Please ensure that you and all other members of your syndicate have completed\n"
+                "the form, otherwise we may not be able to allocate you rooms based on your\n"
+                "preferences.\n\n"
+                "Thanks in advance for your help! If you have any questions please feel free to\n"
+                "reply to this email.\n\n"
+                "With Downing love,\n\n"
+                "Lawrence\n"
+                "(JCR internet officer)")
+
+        queue_email(to, subject, body)
+
 @click.command("send-emails")
 @with_appcontext
 def send_emails_command():

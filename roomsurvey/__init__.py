@@ -49,6 +49,9 @@ def create_app(test_config = None):
     from . import review
     review.init_app(app)
 
+    from . import survey
+    survey.init_app(app)
+
     # Raven authentication
 
     # Request class boilerplate adapted from python-ucam-webauth
