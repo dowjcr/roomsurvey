@@ -1,10 +1,14 @@
 # Downing JCR Room Ballot Survey
 
-**This branch is for the 2021 room ballot. The database schema is not compatible with previous versions.**
-The 2020 codebase lives on in the `2020` branch.
+**This branch is for the 2022 room ballot.**
+The 2021/20 codebases live on in the `2021` and the `2020` branches respectively.
 
-This web-app facilitates the collection of syndicate and room preference information, which can be passed
-to Matt Moore's room selection algorithm.
+In previous years, the JCR has collected syndicates and room preference data. However, as of 2022,
+we agreed that the College should be responsible for collecting data, for privary purposes. This
+site therefore acts as an information hub regarding the ballot, including:
+ - key links
+ - room allocations
+ - information about how the ballot algorithm is run
 
 ## Installation
 

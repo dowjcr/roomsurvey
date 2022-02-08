@@ -7,63 +7,27 @@
 <div class="jumbotron dashboard">
 	<h1 class="display-4">Dashboard</h1>
 
-{% if syndicate.complete and survey_data.has_filled == 1 %}
-<div class="alert alert-success" role="alert">
-	Your syndicate is complete and you have filled in the room preferences survey. Thanks!
-	{% if g.current_time < config.SHOW_ALLOCATIONS %}
-	We'll be in touch soon with the details of your room.
-	{% else %}
-	You can view the list of room allocations <a href="/allocations">here</a>.
-	{% endif %}
-</div>
-{% endif %}
 	<div class="row">
 		<div class="col-md-6"><div class="dashboard-item">
-			<h2>Your syndicate</h2>
+			<h2>Syndicate Forms</h2>
 
-			{% if not syndicate %}
+			<p>Here are the forms provided by College. <br>
+			</p>
 
-			<p>You have not formed a syndicate yet.</p>
-
-			{% if g.current_time > config.CLOSE_SYNDICATES %}
-			<p>The deadline for creation of new syndicates has passed.</p>
-			{% else %}
-			<a class="btn btn-outline-secondary" href="/syndicate">Create a syndicate &raquo;</a>
-			{% endif %}
-
-			{% if invites|length > 0 %}
-			<p>You have been invited to join a syndicate.</p>
-			<a class="btn btn-outline-primary" href="/invite">View invitation</a>
-			{% endif %}
-
-			{% else %}
-
-			<p>You have {% if g.crsid == syndicate.owner %}formed{% else %}joined{% endif %} a syndicate. The syndicate currently has <strong>{{ syndicate.others|length + 1 }}</strong> member(s){% if syndicate.invited|length > 0 %}, and a further <strong>{{ syndicate.invited|length }}</strong> people have been invited to join.{% else %}.{% endif %}</p>
-
-			{% if syndicate.complete %}
-			<p><strong>Your syndicate is complete; you're good to go.</strong></p>
-			{% endif %}
-
-			<a class="btn btn-outline-secondary" href="/syndicate">View syndicate &raquo;</a>
-
-			{% endif %}
+			<a class="btn btn-outline-secondary" href="/">Syndicate Creation Form &raquo;</a>
+			<a class="btn btn-outline-secondary" href="/">Syndicate Joining Form &raquo;</a> <br>
+			<a class="btn btn-outline-secondary" href="/">Room Ballot Form &raquo;</a>
 		</div></div>
 
 		<div class="col-md-6"><div class="dashboard-item">
 			{% if g.current_time > config.SHOW_ALLOCATIONS %}
-			<h2>Room allocations</h2>
+			<h2>Room Allocations</h2>
 			<p>You can view the list of room allocations <a href="/allocations">here</a>.</p>
-			{% elif g.current_time > config.SHOW_SURVEY %}
-			<h2>Room survey</h2>
-			{% if survey_data.has_filled == 1 %}
-			<p>You have already filled in the room preferences survey. Thanks!</p>
+
 			{% else %}
-			<p>Please fill in a short survey describing your preferences in a room. This allows us to match you with the best room possible.</p>
-			<a class="btn btn-outline-secondary" href="/survey">Fill in survey &raquo;</a>
-			{% endif %}
-			{% else %}
-			<h2>Room survey</h2>
-			<p>The room survey will be ready soon. Thanks for your patience!</p>
+			<h2>Room allocations</h2>
+			<p>Room allocations will be published here when they are ready! <br>In the meantime, 
+			you can view last year's allocations <a href="/allocations">here</a>.</p>
 			{% endif %}
 		</div></div>
 	</div>
@@ -71,11 +35,31 @@
 	<div class="row">
 		<div class="col-md-6"><div class="dashboard-item">
 			<h2>Info &amp; FAQ</h2>
-			<p>Information about the ballot system (and why we have to do this in the first place) can be found on the <a target="_blank" href="https://www.notion.so/6fdd8db2368847028eeded2af418ce14">FAQ page</a>.</p>
+			<p>
+				Your main source of information for the running of the ballot is on the
+				<a href="https://downingcollege.sharepoint.com/sites/Intranet/SitePages/Accommodation-and-Ballots.aspx" target="_blank" rel="noopener noreferrer">Downing College Intranet site</a>.
+				<br> <br>
+
+				Information about the ballot system (and why we have to do this in the first place) 
+				can be found on the <a target="_blank" href="https://www.notion.so/6fdd8db2368847028eeded2af418ce14">FAQ page</a>.
+				Please note that the Notion site was set up last year, and so the deadlines are 
+				not accurate, and some of the information might have changed. We're currently in the 
+				process of moving the technical info over to this site.</p>
 		</div></div>
 		<div class="col-md-6"><div class="dashboard-item">
-			<h2>Help</h2>
-			<p>If you encounter any issues using this website or have questions about the ballot in general, please feel free to contact the JCR Internet Officer. (<a href="mailto:internet@jcr.dow.cam.ac.uk">internet@jcr.dow.cam.ac.uk</a>)</p>
+			<h2>Room Browsers</h2>
+			<p>There are 2 room browsers. 
+				<ul>
+					<li>The <a href="https://downingcollege.sharepoint.com/SitePages/Rooms-Browser-Home.aspx">College Room Browser</a></li>
+
+					<li>The <a href="http://old-ballot.dowjcr.uptime.party/roomballot/staircases">JCR Room Browser</a> 
+						is maintained by us. There is <strong>no guarantee</strong> that the information 
+						on this page is correct. However, it does have images and reviews that may 
+						be of interest.</li>
+
+				</ul>
+				
+			</p>
 		</div></div>
 	</div>
 </div>
