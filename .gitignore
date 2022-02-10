@@ -1,4 +1,5 @@
 venv/
+.vscode/
 
 *.pyc
 __pycache__/
@@ -19,5 +20,4 @@ crsids.txt
 users.csv
 roomsurvey.wsgi
 
-roomsurvey/templates/allocations.html
 allocations.csv
